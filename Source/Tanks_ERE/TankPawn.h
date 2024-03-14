@@ -15,15 +15,25 @@ public:
 	// Sets default values for this pawn's properties
 	ATankPawn();
 
+	void HandleDestruction();
+
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	void RotateTurret(FVector LookAtTarget);
+	void Fire();
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+private:
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* BaseMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* TurretMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class USceneComponent* ProjectileSpawnPoint;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UCapsuleComponent* CapsuleComp;
+
 
 };
