@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 
 APlayerTank::APlayerTank()
@@ -24,11 +25,25 @@ void APlayerTank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
     PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &APlayerTank::Move);
     PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerTank::Turn);
 
-    PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &APlayerTank::Fire);
+    //PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &APlayerTank::Fire);
 }
 
 void APlayerTank::Tick(float DeltaTime)
 {
+    Super::Tick(DeltaTime);
+
+    if (PlayerTankPlayerController)
+    {
+        FHitResult HitResult;
+        PlayerTankPlayerController->GetHitResultUnderCursor(
+            ECollisionChannel::ECC_Visibility,
+            false,
+            HitResult);
+
+        DrawDebugSphere(GetWorld(), HitResult.ImpactPoint + FVector(0.f,0.f,30.f), 30.f, 12, FColor::Red);
+
+        RotateTurret(HitResult.ImpactPoint);
+    }
 }
 
 void APlayerTank::HandleDestruction()
@@ -44,7 +59,7 @@ void APlayerTank::BeginPlay()
 {
     Super::BeginPlay();
 
-    TankPlayerController = Cast<APlayerController>(GetController());
+    PlayerTankPlayerController = Cast<APlayerController>(GetController());
 }
 
 

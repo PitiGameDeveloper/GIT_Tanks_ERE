@@ -25,7 +25,7 @@ public:
 
 	void HandleDestruction();
 
-	APlayerController* GetTankPlayerController() const { return TankPlayerController; }
+	APlayerController* GetTankPlayerController() const { return PlayerTankPlayerController; }
 
 	bool bAlive = true;
 
@@ -50,5 +50,5 @@ private:
 	void Move(float Value);
 	void Turn(float Value);
 
-	APlayerController* TankPlayerController;
+	APlayerController* PlayerTankPlayerController;
 };
